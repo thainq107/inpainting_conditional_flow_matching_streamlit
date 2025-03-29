@@ -4,11 +4,16 @@ import numpy as np
 import streamlit as st
 from PIL import Image
 from torchcfm.models.unet import UNetModel
+import torchvision.transforms as transforms
 
 model = UNetModel(dim=(3, 256, 256), num_channels=32, num_res_blocks=1)
 
 model.load_state_dict(torch.load("model_best.pth", map_location=torch.device("cpu"), weights_only=True))
 model.eval()
+
+transform = transforms.Compose([
+    transforms.PILToTensor()
+])
 
 def bbox2mask(bbox, dtype='uint8'):
     """
@@ -60,12 +65,14 @@ def main():
         file = st.file_uploader("Please upload an image", type=["jpg", "png"])
         if file is not None:
             image = Image.open(file).convert("RGB").resize((256, 256))
+            image = transform(image)
             pred_image, cond_image = inference(image, mask, model)
             st.image(cond_image)
             st.image(pred_image)
           
     elif option == "Run Example Image":
         image = Image.open('example.png').convert("RGB").resize((256, 256))
+        image = transform(image)
         pred_image, cond_image = inference(image, mask, model)
         st.image(cond_image)
         st.image(pred_image)
