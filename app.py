@@ -5,6 +5,7 @@ import streamlit as st
 from PIL import Image
 from torchcfm.models.unet import UNetModel
 import torchvision.transforms as transforms
+from torchvision.utils import make_grid
 
 model = UNetModel(dim=(3, 256, 256), num_channels=32, num_res_blocks=1)
 
@@ -67,15 +68,19 @@ def main():
             image = Image.open(file).convert("RGB").resize((256, 256))
             image = transform(image)
             pred_image, cond_image = inference(image, mask, model)
-            st.image(cond_image)
-            st.image(pred_image)
+            grid = make_grid(
+                [cond_image, pred_image].view([-1, 3, 256, 256]).clip(-1, 1), value_range=(-1, 1), padding=0, nrow=10
+            )
+            st.image(grid)
           
     elif option == "Run Example Image":
         image = Image.open('example.png').convert("RGB").resize((256, 256))
         image = transform(image)
         pred_image, cond_image = inference(image, mask, model)
-        st.image(cond_image)
-        st.image(pred_image)
+        grid = make_grid(
+            [cond_image, pred_image].view([-1, 3, 256, 256]).clip(-1, 1), value_range=(-1, 1), padding=0, nrow=10
+        )
+        st.image(grid)
 
 if __name__ == '__main__':
     main() 
