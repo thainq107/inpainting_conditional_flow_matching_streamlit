@@ -6,6 +6,7 @@ from PIL import Image
 from torchcfm.models.unet import UNetModel
 import torchvision.transforms as transforms
 from torchvision.utils import make_grid
+from torchvision.transforms import ToPILImage
 
 model = UNetModel(dim=(3, 256, 256), num_channels=32, num_res_blocks=1)
 
@@ -71,7 +72,8 @@ def main():
             grid = make_grid(
                 show_imgs.view([-1, 3, 256, 256]).clip(-1, 1), value_range=(-1, 1), padding=0, nrow=10
             )
-            st.image(grid)
+            img = ToPILImage()(grid)
+            st.image(img)
           
     elif option == "Run Example Image":
         image = Image.open('example.png').convert("RGB").resize((256, 256))
@@ -81,7 +83,8 @@ def main():
         grid = make_grid(
             show_imgs.view([-1, 3, 256, 256]).clip(-1, 1), value_range=(-1, 1), padding=0, nrow=10
         )
-        st.image(grid)
+        img = ToPILImage()(grid)
+        st.image(img)
 
 if __name__ == '__main__':
     main() 
