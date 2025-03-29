@@ -50,7 +50,7 @@ def inference(gt_image, mask, model):
     cond_image = gt_image*(1. - mask) + mask*noise
     
     # Time parameters
-    t_steps = torch.linspace(0, 1, 50, device=device)  # Two time steps from 0 to 1
+    t_steps = torch.linspace(0, 1, 5)  # Two time steps from 0 to 1
     dt = t_steps[1] - t_steps[0]  # Time step
     
     # Solve the ODE using Euler method
