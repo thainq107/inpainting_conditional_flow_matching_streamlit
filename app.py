@@ -45,7 +45,7 @@ def euler_method(model, cond_image, t_steps, dt, mask):
 
 def inference(gt_image, mask, model):
     gt_image = gt_image.unsqueeze(0)
-    noise = torch.randn_like(gt_image)
+    noise = torch.randn((256,256))
     mask = mask.unsqueeze(0)
     cond_image = gt_image*(1. - mask) + mask*noise
     
