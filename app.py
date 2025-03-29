@@ -37,7 +37,7 @@ def euler_method(model, cond_image, t_steps, dt, mask):
     with torch.no_grad():
         for t in t_steps[1:]:
             t = t.reshape(-1, )
-            dy = model(t.to(device), y)
+            dy = model(t, y)
             y = y + dy * dt
             y = cond_image*(1. - mask) + mask*y
             y_values.append(y)
