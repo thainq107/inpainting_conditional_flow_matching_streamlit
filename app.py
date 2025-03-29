@@ -1,5 +1,6 @@
 import os
 import torch
+import numpy as np
 import streamlit as st
 from PIL import Image
 from torchcfm.models.unet import UNetModel
