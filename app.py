@@ -77,6 +77,7 @@ def main():
         image = Image.open('example.png').convert("RGB").resize((256, 256))
         image = transform(image)
         pred_image, cond_image = inference(image, mask, model)
+        print(cond_image.shape, pred_image.shape)
         show_imgs = torch.cat([cond_image, pred_image], dim=0)
         grid = make_grid(
             show_imgs.view([-1, 3, 256, 256]).clip(-1, 1), value_range=(-1, 1), padding=0, nrow=10
