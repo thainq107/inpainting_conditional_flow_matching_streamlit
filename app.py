@@ -65,9 +65,9 @@ def main():
           
     elif option == "Run Example Image":
         image = Image.open('example.png').convert("RGB").resize((256, 256))
-            pred_image, cond_image = inference(image, mask, model)
-            st.image(cond_image)
-            st.image(pred_image)
+        pred_image, cond_image = inference(image, mask, model)
+        st.image(cond_image)
+        st.image(pred_image)
 
 if __name__ == '__main__':
     main() 
