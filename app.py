@@ -4,7 +4,7 @@ import streamlit as st
 from PIL import Image
 from torchcfm.models.unet import UNetModel
 
-model = UNetModel(dim=(3, 256, 256), num_channels=32, num_res_blocks=1).to(device)
+model = UNetModel(dim=(3, 256, 256), num_channels=32, num_res_blocks=1)
 
 model.load_state_dict(torch.load("model_best.pt", map_location=torch.device("cpu"), weights_only=True))
 model.eval()
